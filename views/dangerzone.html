@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>위험 지역 알림 지도</title>
+    <style>
+        #map {
+            width: 80%;
+            height: 80vh;
+            /* 지도 높이 */
+        }
+
+        #status {
+            margin: 10px;
+            font-size: 18px;
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>위험 지역 알림</h1>
+    <p id="status">위치를 확인 중...</p>
+    <div id="map"></div>
+
+    <!-- 네이버 지도 API -->
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=">
+    </script>
+    <script>
+        // 위험 지역 데이터
+        const dangerZones = [
+            { name: "위험 지역 1", lat: 37.5665, lng: 126.9780, radius: 500 }, // 서울
+            { name: "위험 지역 2", lat: 37.5700, lng: 126.9820, radius: 300 }, // 서울 근처
+        ];
+
+        // 지도 초기화
+        const map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(37.5665, 126.9780), // 초기 중심 좌표 (서울)
+            zoom: 12, // 확대 레벨
+        });
+
+        // 위험 지역 표시
+        dangerZones.forEach((zone) => {
+            // 원(circle) 표시
+            new naver.maps.Circle({
+                map: map,
+                center: new naver.maps.LatLng(zone.lat, zone.lng),
+                radius: zone.radius, // 반경 (미터)
+                fillColor: 'rgba(255, 0, 0, 0.3)', // 빨간색 반투명
+                strokeColor: '#FF0000', // 테두리 색
+                strokeWeight: 2,
+            });
+
+            // 마커 표시
+            new naver.maps.Marker({
+                position: new naver.maps.LatLng(zone.lat, zone.lng),
+                map: map,
+                title: zone.name,
+            });
+        });
+
+        // 내 위치 확인 및 지도에 표시
+        function showMyLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.watchPosition(
+                    (position) => {
+                        const myLat = position.coords.latitude;
+                        const myLng = position.coords.longitude;
+                        const myLocation = new naver.maps.LatLng(myLat, myLng);
+
+                        // 지도 중심을 내 위치로 이동
+                        map.setCenter(myLocation);
+
+                        // 내 위치 마커 표시
+                        new naver.maps.Marker({
+                            position: myLocation,
+                            map: map,
+                            icon: {
+                                content: '<div style="width:15px;height:15px;background-color:blue;border-radius:50%;"></div>',
+                                anchor: new naver.maps.Point(7.5, 7.5), // 중앙 정렬
+                            },
+                        });
+
+                        // 위험 지역과 거리 계산
+                        checkDangerZone(myLat, myLng);
+                    },
+                    (error) => {
+                        document.getElementById('status').innerText = '위치 정보를 가져올 수 없습니다.';
+                        console.error('Error getting location:', error);
+                    }
+                );
+            } else {
+                document.getElementById('status').innerText = '이 기기는 위치 정보를 지원하지 않습니다.';
+            }
+        }
+
+        // 위험 지역 여부 확인
+        function checkDangerZone(lat, lng) {
+            let inDanger = false;
+
+            dangerZones.forEach((zone) => {
+                const distance = naver.maps.GeometryUtil.getDistance(
+                    new naver.maps.LatLng(lat, lng),
+                    new naver.maps.LatLng(zone.lat, zone.lng)
+                );
+
+                if (distance <= zone.radius) {
+                    inDanger = true;
+                    document.getElementById('status').innerText = `위험 지역에 있습니다: ${zone.name}`;
+                }
+            });
+
+            if (!inDanger) {
+                document.getElementById('status').innerText = '위험 지역이 아닙니다.';
+            }
+        }
+
+        // 페이지 로드 후 내 위치 표시
+        window.onload = showMyLocation;
+    </script>
+</body>
+
+</html>
