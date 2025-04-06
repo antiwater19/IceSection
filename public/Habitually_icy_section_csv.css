@@ -1,15 +1,95 @@
+/* Google Font 추가 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+
+/* 기본 스타일 */
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #ffffff;
+    /* 흰색 배경 */
+    font-family: 'Noto Sans', sans-serif;
+    color: #333333;
+    /* 어두운 회색 텍스트 */
+}
+
+/* 제목 스타일 */
+h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #222222;
+}
+
+/* 버튼 컨테이너 */
+.button-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* 버튼 스타일 */
 button {
-    background: none;
-    color: #ffa260;
-    border: 2px solid;
-    padding: 1em 2em;
-    font-size: 1em;
-    transition: all 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+    background-color: #ffd700;
+    /* 노란색 */
+    color: #333333;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 25px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    font-weight: bold;
 }
 
 button:hover {
-    border-color: #f1ff5c;
+    background-color: #ffc107;
+    transform: scale(1.05);
+}
+
+button a {
+    color: #333333;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#btn-container {
+    margin-bottom: 10px;
+}
+
+.nav-button {
+    background-color: #4CAF50;
     color: white;
-    box-shadow: 0 0.5em 0.5em -0.4em #f1ff5c;
-    transform: translateY(-0.25em);
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.nav-button:hover {
+    background-color: #45a049;
+}
+
+/* 지도 스타일 */
+#map {
+    width: 85%;
+    height: 70vh;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* 현재 위치 정보창 스타일 */
+.info-box {
+    padding: 10px;
+    background: #ffd700;
+    color: #333333;
+    border-radius: 5px;
+    font-weight: bold;
 }

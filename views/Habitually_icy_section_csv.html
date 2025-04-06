@@ -6,171 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>네이버 지도 - CSV 좌표 표시</title>
     <link rel="stylesheet" href="/Habitually_icy_section_csv.css">
-    <style>
-        body {
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #667caf;
-            font-family: Arial, sans-serif;
-        }
-
-
-        #map {
-            width: 80%;
-            height: 70vh;
-            border: 2px solid #ddd;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-        }
-
-        #fileInput {
-            margin: 10px;
-        }
-    </style>
 </head>
 
 <body>
     <h1>위험지역알리미</h1>
-    <button><a href="/">상습결빙구간</a></button>
-    <button><a href="/index">포트홀 구간</a></button>
-    <button>블랙아이스 구간</button>
+
+    <div class=" button-container">
+        <button><a href="/">상습결빙구간</a></button>
+        <button><a href="/pothole">포트홀 구간</a></button>
+        <button><a href="https://www.naver.com">블랙아이스 구간</a></button>
+    </div>
+
     <!--button onclick="loadCSV()">IceSection.csv 불러오기</button>
     <input type="file" id="fileInput" accept=".csv"-->
+
+    <div id="btn-container">
+        <button class="nav-button" onclick="moveToMyLocation()">내 위치로 이동</button>
+    </div>
+
     <div id="map"></div>
 
+
+
     <!-- 네이버 지도 API -->
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=">
-    </script>
-    <script>
-        // 지도 초기화
-        const map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.5665, 126.9780), // 초기 중심 좌표 (서울)
-            zoom: 12, // 확대 레벨
-        });
+    <!-- <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=">
+    </script> -->
 
-        var markerOptions = {
-            position: new naver.maps.LatLng(37.3595704, 127.105399),
-            map: map,
-            icon: {
-                url: './img/dia.png',
-                size: new naver.maps.Size(70, 70),
-                origin: new naver.maps.Point(0, 0),
-                anchor: new naver.maps.Point(11, 35)
-            }
-        };
+    <script src="/js/Habityually_icy_section_csv.js"></script>
 
-        var marker = new naver.maps.Marker(markerOptions, {
-            position: new naver.maps.LatLng(37.3595704, 127.105399),
-            map: map
-        });
-
-        // 페이지 로드 시 자동으로 현재 위치 표시, csv위치
-        window.onload = function () {
-            loadCSV();
-            showCurrentLocation();
-
-        }
-
-        function showCurrentLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const lat = position.coords.latitude;
-                        const lng = position.coords.longitude;
-
-                        // 지도 중심을 현재 위치로 이동
-                        const userLocation = new naver.maps.LatLng(lat, lng);
-                        map.setCenter(userLocation);
-
-                        // 현재 위치에 마커 추가
-                        const marker = new naver.maps.Marker({
-                            position: userLocation,
-                            map: map,
-                            title: "현재 위치"
-                        });
-
-                        // 정보창 추가
-                        const infoWindow = new naver.maps.InfoWindow({
-                            content: `<div style="padding:10px;">현재 위치</div>`
-                        });
-                        infoWindow.open(map, marker);
-                    },
-                    (error) => {
-                        alert("위치 정보를 가져올 수 없습니다.");
-                        console.error(error);
-                    }
-                );
-            } else {
-                alert("이 브라우저에서는 위치 정보를 지원하지 않습니다.");
-            }
-        }
-
-
-
-
-        // IceSection.csv 읽기
-        function loadCSV() {
-            fetch("IceSection_20231222.csv")
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("CSV 파일을 불러올 수 없습니다.");
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    processCSV(data);
-                })
-                .catch(error => {
-                    document.getElementById("output").innerText = error.message;
-                });
-        }
-
-        // 파일 읽기 및 지도에 마커 표시 csv파일을 선택해서 읽는거임
-        // document.getElementById('fileInput').addEventListener('change', function (event) {
-        //     const file = event.target.files[0];
-        //     if (file) {
-        //         const reader = new FileReader();
-        //         reader.onload = function (e) {
-        //             const csvData = e.target.result;
-        //             processCSV(csvData);
-        //         };
-        //         reader.readAsText(file);
-        //     }
-        // });
-
-
-
-        // CSV 데이터를 처리하고 마커 생성
-        function processCSV(data) {
-            const rows = data.split('\n'); // 행 분리
-            rows.forEach((row, index) => {
-                if (index === 0) return; // 헤더는 건너뛰기
-                const [sectionNumber, managementOffice,
-                    roadClassification, representativeRegion, name, totalLengthKm, lat, lng] = row.split(','); // 열 분리
-                if (name && lat && lng) {
-                    addMarker(name.trim(), parseFloat(lat.trim()), parseFloat(lng.trim()));
-                }
-            });
-        }
-
-        // 지도에 마커 추가
-        function addMarker(name, lat, lng) {
-            const marker = new naver.maps.Marker({
-                position: new naver.maps.LatLng(lat, lng),
-                map: map,
-                title: name,
-            });
-
-            // 마커 클릭 이벤트
-            naver.maps.Event.addListener(marker, 'click', function () {
-                alert(`위치: ${name}\n위도: ${lat}, 경도: ${lng}`);
-            });
-        }
-    </script>
 
 </body>
 

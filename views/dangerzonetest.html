@@ -18,51 +18,77 @@
             color: red;
             font-weight: bold;
         }
+
+        #btn-container {
+            margin-bottom: 10px;
+        }
+
+        .nav-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 
 <body>
     <h1>위험 지역 알림</h1>
+
+    <div id="btn-container">
+        <button class="nav-button" onclick="moveToMyLocation()">내 위치로 이동</button>
+    </div>
     <p id="status">위치를 확인 중...</p>
     <div id="map"></div>
 
     <!-- 네이버 지도 API -->
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=">
-    </script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId="></script>
     <script>
+        let map; // 네이버 지도 변수
+        let myMarker; // 내 위치 마커 변수
+
         // 위험 지역 데이터
         const dangerZones = [
             { name: "위험 지역 1", lat: 37.5665, lng: 126.9780, radius: 500 }, // 서울
             { name: "위험 지역 2", lat: 37.5700, lng: 126.9820, radius: 300 }, // 서울 근처
         ];
 
-        // 지도 초기화
-        const map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.5665, 126.9780), // 초기 중심 좌표 (서울)
-            zoom: 12, // 확대 레벨
-        });
-
-        // 위험 지역 표시
-        dangerZones.forEach((zone) => {
-            // 원(circle) 표시
-            new naver.maps.Circle({
-                map: map,
-                center: new naver.maps.LatLng(zone.lat, zone.lng),
-                radius: zone.radius, // 반경 (미터)
-                fillColor: 'rgba(255, 0, 0, 0.3)', // 빨간색 반투명
-                strokeColor: '#FF0000', // 테두리 색
-                strokeWeight: 2,
+        function initMap() {
+            map = new naver.maps.Map('map', {
+                center: new naver.maps.LatLng(37.5665, 126.9780), // 기본 중심 좌표 (서울)
+                zoom: 12
             });
 
-            // 마커 표시
-            new naver.maps.Marker({
-                position: new naver.maps.LatLng(zone.lat, zone.lng),
-                map: map,
-                title: zone.name,
-            });
-        });
+            // 위험 지역 표시
+            dangerZones.forEach((zone) => {
+                new naver.maps.Circle({
+                    map: map,
+                    center: new naver.maps.LatLng(zone.lat, zone.lng),
+                    radius: zone.radius,
+                    fillColor: 'rgba(255, 0, 0, 0.3)', // 빨간색 반투명
+                    strokeColor: '#FF0000',
+                    strokeWeight: 2,
+                });
 
-        // 내 위치 확인 및 지도에 표시
+                new naver.maps.Marker({
+                    position: new naver.maps.LatLng(zone.lat, zone.lng),
+                    map: map,
+                    title: zone.name,
+                });
+            });
+
+            showMyLocation(); // 내 위치 표시 시작
+        }
+
         function showMyLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.watchPosition(
@@ -71,25 +97,21 @@
                         const myLng = position.coords.longitude;
                         const myLocation = new naver.maps.LatLng(myLat, myLng);
 
-                        // 지도 중심을 내 위치로 이동
-                        map.setCenter(myLocation);
-
-                        // 내 위치 마커 표시
-                        new naver.maps.Marker({
+                        // 기존 마커 삭제 후 새 마커 추가
+                        if (myMarker) myMarker.setMap(null);
+                        myMarker = new naver.maps.Marker({
                             position: myLocation,
                             map: map,
                             icon: {
                                 content: '<div style="width:15px;height:15px;background-color:blue;border-radius:50%;"></div>',
-                                anchor: new naver.maps.Point(7.5, 7.5), // 중앙 정렬
+                                anchor: new naver.maps.Point(7.5, 7.5),
                             },
                         });
 
-                        // 위험 지역과 거리 계산
                         checkDangerZone(myLat, myLng);
                     },
                     (error) => {
                         document.getElementById('status').innerText = '위치 정보를 가져올 수 없습니다.';
-                        console.error('Error getting location:', error);
                     }
                 );
             } else {
@@ -97,7 +119,16 @@
             }
         }
 
-        // 위험 지역 여부 확인
+        function moveToMyLocation() {
+            if (myMarker) {
+                const myPosition = myMarker.getPosition();
+                map.setCenter(myPosition);
+                map.setZoom(15); // 내 위치로 이동 시 확대
+            } else {
+                alert("내 위치 정보가 없습니다.");
+            }
+        }
+
         function checkDangerZone(lat, lng) {
             let inDanger = false;
 
@@ -118,8 +149,7 @@
             }
         }
 
-        // 페이지 로드 후 내 위치 표시
-        window.onload = showMyLocation;
+        window.onload = initMap;
     </script>
 </body>
 

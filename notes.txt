@@ -1,0 +1,1 @@
+ACM SSL ARM:arn:aws:acm:ap-northeast-2:637423183783:certificate/caa0136f-c9b0-46e2-81d3-9d871a18c899
