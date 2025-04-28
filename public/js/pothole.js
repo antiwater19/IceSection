@@ -49,11 +49,25 @@ function initMapPothole() {
                     let lon = item.vhcleLot; // 경도
 
                     // 지도에 마커 추가
-                    new naver.maps.Marker({
+                    const marker = new naver.maps.Marker({
                         position: new naver.maps.LatLng(lat, lon),
                         map: map
                     });
-                    console.log('잘 출력됬음'); // 디버깅 정상적으로 완료확인용코드.
+                    //console.log('잘 출력됬음'); // 디버깅 정상적으로 완료확인용코드.
+
+                    // 클릭하면 위도, 경도 표시하는 InfoWindow 생성
+                    const infoWindow = new naver.maps.InfoWindow({
+                        content: `<div style="padding:10px;"> 위도 : ${item.vhcleLat} 경도 : ${item.vhcleLot}</div>`, // 마커 클릭 시 정보창 내용
+                        maxWidth: 300
+                    });
+
+                    // 마커 클릭 이벤트 추가
+                    naver.maps.Event.addListener(marker, 'click', function() {
+                        console.log('마커 클릭됨'); // 디버깅용
+                        infoWindow.open(map, marker.getPosition());
+                    });
+
+                    console.log('마커 생성 완료'); // 디버깅 정상적으로 완료확인용코드.
                 });
             })
             .catch(error => console.error("API 호출 오류:", error));
@@ -62,7 +76,7 @@ function initMapPothole() {
     // 포트홀 api응답 테스트
     // async function fetchData() {
     //     try {
-    //         const response = await fetch('https://t-data.seoul.go.kr/apig/apiman-gateway/tapi/v2xPotholeInformation/1.0?apikey=3a17e9e8-d914-47e6-aa45-ee5441f8d45b');
+    //         const response = await fetch('https://t-data.seoul.go.kr/apig/apiman-gateway/tapi/v2xPotholeInformation/1.0?apikey=' + PotholeSeoulKey);
     //         if (!response.ok) {
     //             throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
     //         }
@@ -76,7 +90,7 @@ function initMapPothole() {
     // }
 
     // 지도 초기화
-    const map = new naver.maps.Map('map', {
+    var map = new naver.maps.Map('map', {
         center: new naver.maps.LatLng(37.5665, 126.9780), // 초기 중심 좌표 (서울)
         zoom: 12, // 확대 레벨
     });
@@ -156,11 +170,11 @@ function initMapPothole() {
             const myPosition = userMarker.getPosition();
             map.setCenter(myPosition);
             map.setZoom(15); // 내 위치로 이동 시 확대
+            console.log('위치로 이동됨.'); // 디버깅 정상적으로 완료확인용코드.
         } else {
             alert("내 위치 정보가 없습니다.");
         }
     }
-
 
 
     // 외부에서 호출할 수 있게 window에 등록
