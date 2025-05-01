@@ -62,7 +62,7 @@ function initMapPothole() {
                     });
 
                     // 마커 클릭 이벤트 추가
-                    naver.maps.Event.addListener(marker, 'click', function() {
+                    naver.maps.Event.addListener(marker, 'click', function () {
                         console.log('마커 클릭됨'); // 디버깅용
                         infoWindow.open(map, marker.getPosition());
                     });
