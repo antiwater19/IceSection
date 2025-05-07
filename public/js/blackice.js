@@ -55,13 +55,9 @@ function initMapPothole() {
                     });
                     //console.log('잘 출력됬음'); // 디버깅 정상적으로 완료확인용코드.
 
-                    let ImgUrl = "https://potholeimg.s3.ap-northeast-2.amazonaws.com/dog.jpg?response-content-disposition=inline&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKr%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLW5vcnRoZWFzdC0yIkYwRAIgabAjRQ6Ic9SPZkl9bS7nccqCFSVMwmqg0mtDZfQ0QrACIG%2FUGn4hbzOlrdR%2BUWzyDebmkLtltqrYegh7%2BvFoyTbvKrkDCFMQABoMNjM3NDIzMTgzNzgzIgy%2FK4wM6qH2mevSU5AqlgMUhIx0OcbxHDIhZEzYIdOCQwlorWYclVdXCk8e1KyldlpoyGR6zAKPzMbGQTInnP3QaPBf0o%2FNCxEf8H6hjFJ8mx62mmYDuQes8RQeEmepMNamvKlzblQr2UtXHyN1gZBuQp77TRxvxj9LhwaUz31ugKE8bR%2F2Kiqr830t89uTku6sACldEeTcVgOOtCCpXPyCKSfcTlDzFUSAv16Nln2zWOWbB7w%2BwiI8UwqCkjVYsPqbPDVGRg6o626Xn6tZeexozCanoR5Rj6nE5xuChaZw%2Fop8%2B%2BkamFAmXTz2haxnSmTLCxPFmO0G41on419sziXbRpGQCSpu3y7%2BhDdrq1IdMDRuLUP9R2sDmSxrHAJ5dPcbIl7dxXHMGse3Vmj7iNrJ9e4aYiI3zGPJv%2BK2QaRLrOisrcMsFELI%2Fn3i4BvO5wibpHefwMFGJnw8uTlYdxv68DutoM1L0I%2F6F3hmGhqwKnFN12z%2F%2FbX8cNX3SD12W%2BAjFPaV2psBdbTsgjeO438vZjmctOYedVW%2FL6erpaTaovgJNdCcMI%2FR6sAGOt8CQHKdw58yW2Q%2FzgNsC7omGz1AOqDc2MTCuuoetJ0VNqBuerjYfBJ%2BflMzQg%2Bk06WBPZ%2Fza415vUAervHDRfxcQbVkE99RIwjCVD0EqOZaxQXroZTmrzjeDEKjdid7%2F%2B0%2Bqb3WvLoA6eale%2B4Lp8c6pUk4IUC3pgsauQgm1iLJDV8MIems2QnwCU4tAHGwLLLz1xqeuCaJdOiSyQrBpIcnyGmvdbJcylvjcKHx3ZaiRcDkryWzxQZbrMDTeczUJFsCP%2BD5UIu15iVMS8Q%2BxYGWqeT1CuFSoMKtyjgjQrlu0OMgFAzO1Am%2FsPg95SNqLHOyAV%2FJA4AxEoW3xDqQc8YGbmYLi9fPW7by%2FP6t3nSVL0snegcWXHo7kQ4Ihnn9g%2FPZ5%2BWwkjUgBQkr1WtBuC7Pk4gP7WtAU8oKyga6C1EVS%2FQs7XpXiGmOpAD%2Bw2aEuMmdHVZmKvZZ3PlOJafgN4jM&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAZI2LB46TXIMVSMCG%2F20250507%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20250507T020902Z&X-Amz-Expires=10800&X-Amz-SignedHeaders=host&X-Amz-Signature=99af211d04c6925184330b742d1a46c8c9d571b6db623e73901edff6e838595c"
-
                     // 클릭하면 위도, 경도 표시하는 InfoWindow 생성
                     const infoWindow = new naver.maps.InfoWindow({
-                        content: `<div style="padding:10px;"> 위도 : ${item.vhcleLat} 경도 : ${item.vhcleLot} <br/>
-                        <img src="${ImgUrl}" style="width: 50%; margin-top: 5px;" alt="포트홀 사진" />
-                        </div>`, // 마커 클릭 시 정보창 내용
+                        content: `<div style="padding:10px;"> 위도 : ${item.vhcleLat} 경도 : ${item.vhcleLot}</div>`, // 마커 클릭 시 정보창 내용
                         maxWidth: 300
                     });
 
