@@ -131,7 +131,7 @@ function initMapPothole() {
                         map: map,
                         title: "현재 위치",
                         icon: {
-                            url: './img/dia.png',
+                            url: './img/oowang.png',
                             size: new naver.maps.Size(70, 70),
                             origin: new naver.maps.Point(0, 0),
                             anchor: new naver.maps.Point(35, 35)
