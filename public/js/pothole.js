@@ -55,11 +55,35 @@ function initMapPothole() {
                     });
                     //console.log('잘 출력됬음'); // 디버깅 정상적으로 완료확인용코드.
 
-                    let ImgUrl = "https://potholeimg.s3.ap-northeast-2.amazonaws.com/dog.jpg?response-content-disposition=inline&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKr%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLW5vcnRoZWFzdC0yIkYwRAIgabAjRQ6Ic9SPZkl9bS7nccqCFSVMwmqg0mtDZfQ0QrACIG%2FUGn4hbzOlrdR%2BUWzyDebmkLtltqrYegh7%2BvFoyTbvKrkDCFMQABoMNjM3NDIzMTgzNzgzIgy%2FK4wM6qH2mevSU5AqlgMUhIx0OcbxHDIhZEzYIdOCQwlorWYclVdXCk8e1KyldlpoyGR6zAKPzMbGQTInnP3QaPBf0o%2FNCxEf8H6hjFJ8mx62mmYDuQes8RQeEmepMNamvKlzblQr2UtXHyN1gZBuQp77TRxvxj9LhwaUz31ugKE8bR%2F2Kiqr830t89uTku6sACldEeTcVgOOtCCpXPyCKSfcTlDzFUSAv16Nln2zWOWbB7w%2BwiI8UwqCkjVYsPqbPDVGRg6o626Xn6tZeexozCanoR5Rj6nE5xuChaZw%2Fop8%2B%2BkamFAmXTz2haxnSmTLCxPFmO0G41on419sziXbRpGQCSpu3y7%2BhDdrq1IdMDRuLUP9R2sDmSxrHAJ5dPcbIl7dxXHMGse3Vmj7iNrJ9e4aYiI3zGPJv%2BK2QaRLrOisrcMsFELI%2Fn3i4BvO5wibpHefwMFGJnw8uTlYdxv68DutoM1L0I%2F6F3hmGhqwKnFN12z%2F%2FbX8cNX3SD12W%2BAjFPaV2psBdbTsgjeO438vZjmctOYedVW%2FL6erpaTaovgJNdCcMI%2FR6sAGOt8CQHKdw58yW2Q%2FzgNsC7omGz1AOqDc2MTCuuoetJ0VNqBuerjYfBJ%2BflMzQg%2Bk06WBPZ%2Fza415vUAervHDRfxcQbVkE99RIwjCVD0EqOZaxQXroZTmrzjeDEKjdid7%2F%2B0%2Bqb3WvLoA6eale%2B4Lp8c6pUk4IUC3pgsauQgm1iLJDV8MIems2QnwCU4tAHGwLLLz1xqeuCaJdOiSyQrBpIcnyGmvdbJcylvjcKHx3ZaiRcDkryWzxQZbrMDTeczUJFsCP%2BD5UIu15iVMS8Q%2BxYGWqeT1CuFSoMKtyjgjQrlu0OMgFAzO1Am%2FsPg95SNqLHOyAV%2FJA4AxEoW3xDqQc8YGbmYLi9fPW7by%2FP6t3nSVL0snegcWXHo7kQ4Ihnn9g%2FPZ5%2BWwkjUgBQkr1WtBuC7Pk4gP7WtAU8oKyga6C1EVS%2FQs7XpXiGmOpAD%2Bw2aEuMmdHVZmKvZZ3PlOJafgN4jM&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAZI2LB46TXIMVSMCG%2F20250507%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20250507T020902Z&X-Amz-Expires=10800&X-Amz-SignedHeaders=host&X-Amz-Signature=99af211d04c6925184330b742d1a46c8c9d571b6db623e73901edff6e838595c"
-
+                    const ImgUrl = "./img/doggy.jpg"
                     // 클릭하면 위도, 경도 표시하는 InfoWindow 생성
                     const infoWindow = new naver.maps.InfoWindow({
-                        content: `<div style="padding:10px;"> 위도 : ${item.vhcleLat} 경도 : ${item.vhcleLot}</div>`, // 마커 클릭 시 정보창 내용
+                        // 임시 방편 
+                        // content: (() => {
+                        //     let ImgUrl;
+
+                        //     // 좌표별 이미지 설정
+                        //     if (item.vhcleLat >= "37.4" && item.vhcleLat < "37.5" && item.vhcleLot >= "126.8" && item.vhcleLot < "126.9") {
+                        //         ImgUrl = "https://potholeimg.s3.ap-northeast-2.amazonaws.com/%ED%8F%AC%ED%8A%B8%ED%99%80%20%EC%82%AC%EC%A7%84%EB%93%A4/37.507537%2C127.059324.jpg?response-content-disposition=inline&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOD%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLW5vcnRoZWFzdC0yIkcwRQIgDDgK1SZVSkW1uRJlcr0eJAw9SnwwS6iWLYdhwg2PxV4CIQC%2FaBDfkGkI8W4r1S3gX7TszSuta0yIr809TDapTVQoeCrCAwiJ%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAAaDDYzNzQyMzE4Mzc4MyIMaqjfXYP%2Bxy5%2B5JiVKpYDdoDk59Mg11Hn2elqQTNZ6RFiOtMZZRhG%2BpRFiGpO%2Fl4%2FoR74yd5vjiqp3JZ7ZVu9lpEvZSNrsbhqzLieSuGHA27WypdhklLwdsFg8A7wyKO%2BBomJVjA%2Bq5kiCHi63wtz1Nd7giumlmrrxLZCKAj6%2FM9qnuIWsCmC9meDmdyEHgMPRyxsOnabubSYPHKpw2CvD5zsOFtStWQ1mUn3zHaKquBSL0Nv6buZz0cllaaTjnv12%2FD75TAkj9WDy1BcvMu8%2FwK4ySgTCMpJphSfI%2F7K8orkiIxRGotQnEzzQh0Q8cEKwQPwICaIGwEwp5GllEvNGfZpLByb4lgsr79Om3NT9VJpfeCoPBm0Dljn4J6DNpEJvdeu%2B%2Ff69jTaHiKFRp2gnGypm7xhi25SSeWSEsyixiGbaz%2BBsrXdPR0V%2BMKUiknhvG4xZNUCfQ%2F5b412iDqV%2BASKRFIxcva3nsKoJLMCHzpXwsoOSIBKIf0WXKNG97MusCjpqQl%2B7uOiLVpKUr6mdOn02RtyRlkPW%2BghnTLuAH86bf1EwTCunfbABjreAn1E7NBor7%2FhQW3EF3EP0K%2BlnIivL4W%2Bg3ZfnAAQP%2Ft4TNKNWVSVRsN3NzgljbC2V123RFVxKVgNsPNJER2AxeoRAOls%2FpT74MGhnK4ckNY0yOy4jAlPGjwspig4N8wHRdp66q%2FJn60PbomcV7QZCQGIzirqi9rIy%2BsBogCv3XFVzCIILeELt%2Fsl6wD2g6%2FdlQmCq48YcvKlJIoJoNKbJHBNdeeAHK%2FkIY4l0rhu%2BI0FpIXi4%2BSEDl3b%2B648HW68fqnmX3VoX5mzBRXRvFho2S%2FGgBLiQz95uWXz2Ou8LNiaPHPliox3f7466olkGXpXxq%2BpQjMzSRzrueMV5iS20JSXsxiG5zj8a0308P4NdiQ%2BZkmWUmLw96zNOMPlnp0AyolwIBRuVaQ%2Fusywp%2BvB%2BORGkWBKI6jZarz9dBJu%2BA%2BSF2lq5oyly2cxY%2Fy74k6PjW%2BLWSQdd29vcixNSLSE&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAZI2LB46T3KIINTLQ%2F20250509%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20250509T080534Z&X-Amz-Expires=43200&X-Amz-SignedHeaders=host&X-Amz-Signature=59cf0775fb20fa8b61f39481b696222688a936d24915c3a660e53f4e356f04e4";
+                        //     } else if (item.vhcleLat >= "37.5" && item.vhcleLat < "37.6" && item.vhcleLot >= "126.9" && item.vhcleLot < "127.0") {
+                        //         ImgUrl = "https://potholeimg.s3.ap-northeast-2.amazonaws.com/%ED%8F%AC%ED%8A%B8%ED%99%80%20%EC%82%AC%EC%A7%84%EB%93%A4/37.509913%2C127.097514.jpg?response-content-disposition=inline&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOD%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLW5vcnRoZWFzdC0yIkcwRQIgDDgK1SZVSkW1uRJlcr0eJAw9SnwwS6iWLYdhwg2PxV4CIQC%2FaBDfkGkI8W4r1S3gX7TszSuta0yIr809TDapTVQoeCrCAwiJ%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAAaDDYzNzQyMzE4Mzc4MyIMaqjfXYP%2Bxy5%2B5JiVKpYDdoDk59Mg11Hn2elqQTNZ6RFiOtMZZRhG%2BpRFiGpO%2Fl4%2FoR74yd5vjiqp3JZ7ZVu9lpEvZSNrsbhqzLieSuGHA27WypdhklLwdsFg8A7wyKO%2BBomJVjA%2Bq5kiCHi63wtz1Nd7giumlmrrxLZCKAj6%2FM9qnuIWsCmC9meDmdyEHgMPRyxsOnabubSYPHKpw2CvD5zsOFtStWQ1mUn3zHaKquBSL0Nv6buZz0cllaaTjnv12%2FD75TAkj9WDy1BcvMu8%2FwK4ySgTCMpJphSfI%2F7K8orkiIxRGotQnEzzQh0Q8cEKwQPwICaIGwEwp5GllEvNGfZpLByb4lgsr79Om3NT9VJpfeCoPBm0Dljn4J6DNpEJvdeu%2B%2Ff69jTaHiKFRp2gnGypm7xhi25SSeWSEsyixiGbaz%2BBsrXdPR0V%2BMKUiknhvG4xZNUCfQ%2F5b412iDqV%2BASKRFIxcva3nsKoJLMCHzpXwsoOSIBKIf0WXKNG97MusCjpqQl%2B7uOiLVpKUr6mdOn02RtyRlkPW%2BghnTLuAH86bf1EwTCunfbABjreAn1E7NBor7%2FhQW3EF3EP0K%2BlnIivL4W%2Bg3ZfnAAQP%2Ft4TNKNWVSVRsN3NzgljbC2V123RFVxKVgNsPNJER2AxeoRAOls%2FpT74MGhnK4ckNY0yOy4jAlPGjwspig4N8wHRdp66q%2FJn60PbomcV7QZCQGIzirqi9rIy%2BsBogCv3XFVzCIILeELt%2Fsl6wD2g6%2FdlQmCq48YcvKlJIoJoNKbJHBNdeeAHK%2FkIY4l0rhu%2BI0FpIXi4%2BSEDl3b%2B648HW68fqnmX3VoX5mzBRXRvFho2S%2FGgBLiQz95uWXz2Ou8LNiaPHPliox3f7466olkGXpXxq%2BpQjMzSRzrueMV5iS20JSXsxiG5zj8a0308P4NdiQ%2BZkmWUmLw96zNOMPlnp0AyolwIBRuVaQ%2Fusywp%2BvB%2BORGkWBKI6jZarz9dBJu%2BA%2BSF2lq5oyly2cxY%2Fy74k6PjW%2BLWSQdd29vcixNSLSE&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAZI2LB46T3KIINTLQ%2F20250509%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20250509T080729Z&X-Amz-Expires=43200&X-Amz-SignedHeaders=host&X-Amz-Signature=56c94523179a1a37ec4adb49dd1973f85cb0d4d937b8bdacc326ae9494a7e9d4";
+                        //     } else if (item.vhcleLat >= "37.6" && item.vhcleLat < "37.7" && item.vhcleLot >= "127.0" && item.vhcleLot < "127.1") {
+                        //         ImgUrl = "https://potholeimg.s3.ap-northeast-2.amazonaws.com/%ED%8F%AC%ED%8A%B8%ED%99%80%20%EC%82%AC%EC%A7%84%EB%93%A4/37.511845%2C127.070411.jpg?response-content-disposition=inline&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOD%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLW5vcnRoZWFzdC0yIkcwRQIgDDgK1SZVSkW1uRJlcr0eJAw9SnwwS6iWLYdhwg2PxV4CIQC%2FaBDfkGkI8W4r1S3gX7TszSuta0yIr809TDapTVQoeCrCAwiJ%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAAaDDYzNzQyMzE4Mzc4MyIMaqjfXYP%2Bxy5%2B5JiVKpYDdoDk59Mg11Hn2elqQTNZ6RFiOtMZZRhG%2BpRFiGpO%2Fl4%2FoR74yd5vjiqp3JZ7ZVu9lpEvZSNrsbhqzLieSuGHA27WypdhklLwdsFg8A7wyKO%2BBomJVjA%2Bq5kiCHi63wtz1Nd7giumlmrrxLZCKAj6%2FM9qnuIWsCmC9meDmdyEHgMPRyxsOnabubSYPHKpw2CvD5zsOFtStWQ1mUn3zHaKquBSL0Nv6buZz0cllaaTjnv12%2FD75TAkj9WDy1BcvMu8%2FwK4ySgTCMpJphSfI%2F7K8orkiIxRGotQnEzzQh0Q8cEKwQPwICaIGwEwp5GllEvNGfZpLByb4lgsr79Om3NT9VJpfeCoPBm0Dljn4J6DNpEJvdeu%2B%2Ff69jTaHiKFRp2gnGypm7xhi25SSeWSEsyixiGbaz%2BBsrXdPR0V%2BMKUiknhvG4xZNUCfQ%2F5b412iDqV%2BASKRFIxcva3nsKoJLMCHzpXwsoOSIBKIf0WXKNG97MusCjpqQl%2B7uOiLVpKUr6mdOn02RtyRlkPW%2BghnTLuAH86bf1EwTCunfbABjreAn1E7NBor7%2FhQW3EF3EP0K%2BlnIivL4W%2Bg3ZfnAAQP%2Ft4TNKNWVSVRsN3NzgljbC2V123RFVxKVgNsPNJER2AxeoRAOls%2FpT74MGhnK4ckNY0yOy4jAlPGjwspig4N8wHRdp66q%2FJn60PbomcV7QZCQGIzirqi9rIy%2BsBogCv3XFVzCIILeELt%2Fsl6wD2g6%2FdlQmCq48YcvKlJIoJoNKbJHBNdeeAHK%2FkIY4l0rhu%2BI0FpIXi4%2BSEDl3b%2B648HW68fqnmX3VoX5mzBRXRvFho2S%2FGgBLiQz95uWXz2Ou8LNiaPHPliox3f7466olkGXpXxq%2BpQjMzSRzrueMV5iS20JSXsxiG5zj8a0308P4NdiQ%2BZkmWUmLw96zNOMPlnp0AyolwIBRuVaQ%2Fusywp%2BvB%2BORGkWBKI6jZarz9dBJu%2BA%2BSF2lq5oyly2cxY%2Fy74k6PjW%2BLWSQdd29vcixNSLSE&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAZI2LB46T3KIINTLQ%2F20250509%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20250509T080801Z&X-Amz-Expires=43200&X-Amz-SignedHeaders=host&X-Amz-Signature=5868fe4df5b98fcf807cea9452d8f458c5de9d7db1504febc48dc0f6194f9682";
+                        //     } else {
+                        //         ImgUrl = "https://potholeimg.s3.ap-northeast-2.amazonaws.com/%ED%8F%AC%ED%8A%B8%ED%99%80%20%EC%82%AC%EC%A7%84%EB%93%A4/37.512488%2C127.070321.jpg?response-content-disposition=inline&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOD%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLW5vcnRoZWFzdC0yIkcwRQIgDDgK1SZVSkW1uRJlcr0eJAw9SnwwS6iWLYdhwg2PxV4CIQC%2FaBDfkGkI8W4r1S3gX7TszSuta0yIr809TDapTVQoeCrCAwiJ%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAAaDDYzNzQyMzE4Mzc4MyIMaqjfXYP%2Bxy5%2B5JiVKpYDdoDk59Mg11Hn2elqQTNZ6RFiOtMZZRhG%2BpRFiGpO%2Fl4%2FoR74yd5vjiqp3JZ7ZVu9lpEvZSNrsbhqzLieSuGHA27WypdhklLwdsFg8A7wyKO%2BBomJVjA%2Bq5kiCHi63wtz1Nd7giumlmrrxLZCKAj6%2FM9qnuIWsCmC9meDmdyEHgMPRyxsOnabubSYPHKpw2CvD5zsOFtStWQ1mUn3zHaKquBSL0Nv6buZz0cllaaTjnv12%2FD75TAkj9WDy1BcvMu8%2FwK4ySgTCMpJphSfI%2F7K8orkiIxRGotQnEzzQh0Q8cEKwQPwICaIGwEwp5GllEvNGfZpLByb4lgsr79Om3NT9VJpfeCoPBm0Dljn4J6DNpEJvdeu%2B%2Ff69jTaHiKFRp2gnGypm7xhi25SSeWSEsyixiGbaz%2BBsrXdPR0V%2BMKUiknhvG4xZNUCfQ%2F5b412iDqV%2BASKRFIxcva3nsKoJLMCHzpXwsoOSIBKIf0WXKNG97MusCjpqQl%2B7uOiLVpKUr6mdOn02RtyRlkPW%2BghnTLuAH86bf1EwTCunfbABjreAn1E7NBor7%2FhQW3EF3EP0K%2BlnIivL4W%2Bg3ZfnAAQP%2Ft4TNKNWVSVRsN3NzgljbC2V123RFVxKVgNsPNJER2AxeoRAOls%2FpT74MGhnK4ckNY0yOy4jAlPGjwspig4N8wHRdp66q%2FJn60PbomcV7QZCQGIzirqi9rIy%2BsBogCv3XFVzCIILeELt%2Fsl6wD2g6%2FdlQmCq48YcvKlJIoJoNKbJHBNdeeAHK%2FkIY4l0rhu%2BI0FpIXi4%2BSEDl3b%2B648HW68fqnmX3VoX5mzBRXRvFho2S%2FGgBLiQz95uWXz2Ou8LNiaPHPliox3f7466olkGXpXxq%2BpQjMzSRzrueMV5iS20JSXsxiG5zj8a0308P4NdiQ%2BZkmWUmLw96zNOMPlnp0AyolwIBRuVaQ%2Fusywp%2BvB%2BORGkWBKI6jZarz9dBJu%2BA%2BSF2lq5oyly2cxY%2Fy74k6PjW%2BLWSQdd29vcixNSLSE&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAZI2LB46T3KIINTLQ%2F20250509%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20250509T080836Z&X-Amz-Expires=43200&X-Amz-SignedHeaders=host&X-Amz-Signature=954dd76a90e5e8e86803ffcdf99ddf29493948c05ce0a5ff0e01d33666181cbb";
+                        //     }
+
+                        //     return `
+                        //         <div style="padding:10px;">
+                        //             위도 : ${item.vhcleLat} 경도 : ${item.vhcleLot} <br/>
+                        //             <img src="${ImgUrl}" style="width: 50%; margin-top: 5px;" alt = "포트홀 사진" />
+                        //         </div>
+                        //     `;
+                        // })(),
+
+                        content: `<div style="padding:10px;"> 위도 : ${item.vhcleLat} 경도 : ${item.vhcleLot}<br/>
+                                    <img src="${ImgUrl}" style="width: 50%; margin-top: 5px;" alt = "포트홀 사진" />
+                                  </div>`, // 마커 클릭 시 정보창 내용
                         maxWidth: 300
                     });
 
@@ -140,7 +164,6 @@ function initMapPothole() {
                         content: `<div style="padding:10px;">현재 위치</div>`
                     });
                     infoWindow.open(map, marker);
-
                 },
                 (error) => {
                     alert("위치 정보를 가져올 수 없습니다.");
@@ -179,6 +202,35 @@ function initMapPothole() {
         }
     }
 
+    // csv파일 이용
+    function loadCSV() {
+        fetch("IceSection_20231222.csv")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("CSV 파일을 불러올 수 없습니다.");
+                }
+                return response.text();
+            })
+            .then(data => {
+                processCSV(data);
+            })
+            .catch(error => {
+                document.getElementById("output").innerText = error.message;
+            });
+    }
+
+    // CSV 데이터를 처리하고 마커 생성
+    function processCSV(data) {
+        const rows = data.split('\n'); // 행 분리
+        rows.forEach((row, index) => {
+            if (index === 0) return; // 헤더는 건너뛰기
+            const [sectionNumber, managementOffice,
+                roadClassification, representativeRegion, name, totalLengthKm, lat, lng] = row.split(','); // 열 분리
+            if (name && lat && lng) {
+                addMarker(name.trim(), parseFloat(lat.trim()), parseFloat(lng.trim()));
+            }
+        });
+    }
 
     // 외부에서 호출할 수 있게 window에 등록
     window.moveToMyLocation = moveToMyLocation;
