@@ -207,12 +207,12 @@ function initMapPothole() {
 
     // csv 파일 불러와서 마커 찍는건데 지금 
     function CSVmarker() {
-        let nomalstr = "normal.csv";
+        let normalstr = "normal.csv";
         let potholestr = "pothole.csv";
 
         // csv파일 이용
         function loadCSV(csvstr) {
-            if (csvstr === "normal.csv") {
+            if (csvstr === "pothole.csv") {
                 fetch(csvstr)
                     .then(response => {
                         if (!response.ok) {
@@ -227,7 +227,7 @@ function initMapPothole() {
                         document.getElementById("output").innerText = error.message;
                     });
             }
-            else if (csvstr === "pothole.csv") {
+            else if (csvstr === "normal.csv") {
                 fetch(csvstr)
                     .then(response => {
                         if (!response.ok) {
@@ -260,7 +260,7 @@ function initMapPothole() {
             // 클릭 시 정보창 열기
             const infoWindow = new naver.maps.InfoWindow({
                 content: `<div style="padding:10px;">위도 : ${lat} 경도 : ${lng}<br/>
-                          <img src="${imgurl}" style="width: 50%; margin-top: 5px;" alt="포트홀 사진" />
+                          <img src="./img/porthole/${imgurl}.jpg" style="width: 50%; margin-top: 5px;" alt="포트홀 사진" />
                           </div>`,
                 maxWidth: 300
             });
@@ -286,7 +286,7 @@ function initMapPothole() {
             // 클릭 시 정보창 열기
             const infoWindow = new naver.maps.InfoWindow({
                 content: `<div style="padding:10px;">위도 : ${lat} 경도 : ${lng}<br/>
-                          <img src="${imgurl}" style="width: 50%; margin-top: 5px;" alt="포트홀 사진" />
+                          <img src="./img/normal/${imgurl}.png" style="width: 50%; margin-top: 5px;" alt="${imgurl}" />
                           </div>`,
                 maxWidth: 300
             });
@@ -304,6 +304,7 @@ function initMapPothole() {
                 const [lat, lng, imgurl] = row.split(','); // 열 분리
                 if (imgurl && lat && lng) {
                     addMarker(imgurl.trim(), parseFloat(lat.trim()), parseFloat(lng.trim()));
+                    console.log(imgurl.trim()); // 이미지 이름 어떻게나오는지 테스트
                 }
             });
         }
@@ -315,12 +316,13 @@ function initMapPothole() {
                 const [lat, lng, imgurl] = row.split(','); // 열 분리
                 if (imgurl && lat && lng) {
                     addMarker2(imgurl.trim(), parseFloat(lat.trim()), parseFloat(lng.trim()));
+                    console.log(imgurl.trim()); // 이미지 이름 어떻게나오는지 테스트
                 }
             });
         }
 
+        loadCSV(normalstr);
         loadCSV(potholestr);
-        loadCSV(nomalstr);
     }
 
     // 외부에서 호출할 수 있게 window에 등록
